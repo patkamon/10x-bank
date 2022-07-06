@@ -4,7 +4,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract Account {
     address[] public tokens;
-    mapping(address => uint256) private tokenToAmount;
+    mapping(address => uint256) public tokenToAmount;
     string public name;
     address public owner;
 
@@ -16,7 +16,6 @@ contract Account {
 
     function deposit(address token, uint256 amount) external payable {
         require(tx.origin == owner, "You are not owner of this account!");
-        require(tokenToAmount[token] > 0, "You dont have this token!!");
         require(amount > 0, "Amount must be greater than 0!!");
         // transfer
         ERC20 contractToken = ERC20(token);
@@ -56,5 +55,12 @@ contract Account {
         ERC20 contractToken = ERC20(token);
         contractToken.transfer(to, amount);
         tokenToAmount[token] -= amount;
+    }
+
+    function setTokenToAmount(address token, uint256 amount) public {
+        if (tokenToAmount[token] == 0) {
+            tokens.push(token);
+        }
+        tokenToAmount[token] += amount;
     }
 }

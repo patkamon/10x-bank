@@ -3,18 +3,23 @@ pragma solidity ^0.8.0;
 import "./Account.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-// import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/IERC20.sol";
 contract Bank {
-    mapping(string => Account) private accounts;
+    // mapping(string => Account) public accounts;
+    mapping(string => address) public accounts;
 
-    function createAccount(string calldata name)
+    address public owner;
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    function createAccount(string memory name)
         public
         returns (address _account)
     {
         require(address(accounts[name]) == address(0), "Name already in used");
-        accounts[name] = new Account(name, tx.origin);
-        address _account = address(accounts[name]);
-        return _account;
+        accounts[name] = address(new Account(name, tx.origin));
+        return accounts[name];
     }
 
     function deposit(
@@ -23,7 +28,7 @@ contract Bank {
         uint256 amount
     ) external payable {
         require(address(accounts[name]) != address(0), "Not found account!");
-        Account acc = accounts[name];
+        Account acc = Account(accounts[name]);
         acc.deposit(token, amount);
     }
 
@@ -33,7 +38,7 @@ contract Bank {
         uint256 amount
     ) external payable {
         require(address(accounts[name]) != address(0), "Not found account!");
-        Account acc = accounts[name];
+        Account acc = Account(accounts[name]);
         acc.withdraw(token, amount);
     }
 
@@ -48,16 +53,19 @@ contract Bank {
             address(accounts[_to]) != address(0),
             "Not found account to send to!"
         );
-        Account acc = accounts[name];
-        Account to = accounts[_to];
+        Account acc = Account(accounts[name]);
+        Account to = Account(accounts[_to]);
         if (to.owner() != tx.origin) {
             uint256 fee = (amount / 100);
             amount = amount - fee;
+            acc.transfer(token, owner, fee);
         }
         acc.transfer(token, address(to), amount);
+        // extra
+        to.setTokenToAmount(token, amount);
     }
 
-    function multipleTranfer(
+    function multipleTransfer(
         string memory name,
         address[] memory token,
         string[] memory _to,
@@ -73,17 +81,18 @@ contract Bank {
             "Parameters is not related to each other(length)!!"
         );
         require(token.length <= 150, "Length is exceed limit(150)!!");
-        Account acc = accounts[name];
+        Account acc = Account(accounts[name]);
 
         for (uint256 i = 0; i < _to.length; i++) {
-            Account to = accounts[_to[i]];
+            Account to = Account(accounts[_to[i]]);
             uint256 amount = _amount[i];
             if (to.owner() != tx.origin) {
-                uint256 fee = (_amount[i] / 100);
-                uint256 amount = amount - fee;
+                uint256 fee = (amount / 100);
+                amount = amount - fee;
+                acc.transfer(token[i], owner, fee);
             }
             acc.transfer(token[i], address(to), amount);
+            to.setTokenToAmount(token[i], amount);
         }
-        // acc.multipleTranfer(token, to, amount);
     }
 }
