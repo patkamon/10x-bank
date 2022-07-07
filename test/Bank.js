@@ -1,6 +1,6 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
-const {constants, BN} = require('@openzeppelin/test-helpers');
+const {constants} = require('@openzeppelin/test-helpers');
 
 describe("Bank contract", function () {
     let accounts, owner, bank, token;

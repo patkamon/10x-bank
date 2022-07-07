@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 contract Bank {
     // mapping(string => Account) public accounts;
     mapping(string => address) public accounts;
-
+    mapping(address => address[]) public allAccounts;
     address public owner;
 
     constructor() {
@@ -19,6 +19,7 @@ contract Bank {
     {
         require(address(accounts[name]) == address(0), "Name already in used");
         accounts[name] = address(new Account(name, tx.origin));
+        allAccounts[tx.origin].push(accounts[name]);
         return accounts[name];
     }
 
@@ -94,5 +95,13 @@ contract Bank {
             acc.transfer(token[i], address(to), amount);
             to.setTokenToAmount(token[i], amount);
         }
+    }
+
+    function getAccounts(string calldata a) public view returns (address) {
+        return accounts[a];
+    }
+
+    function getAllAccounts(address a) public view returns (address[] memory) {
+        return allAccounts[a];
     }
 }
