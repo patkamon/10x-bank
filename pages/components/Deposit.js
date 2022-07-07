@@ -4,7 +4,7 @@ import ERC20 from '../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ER
 
 export default function Deposit({info,option}){
 
-    const bankAddress = "0x3060B21CfAe6D0Cd8A52B7777D9a264d8196814e";
+    const bankAddress = "0xa4673E70d351B6Ad072d7855e89CBB33400Ca541";
 
     async function requestAccount() {
         await window.ethereum.request({ method: 'eth_requestAccounts' });

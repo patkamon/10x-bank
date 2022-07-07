@@ -8,7 +8,7 @@ import Account from './components/Account';
 
 export default function Home() {
 
-  const bankAddress = "0x3060B21CfAe6D0Cd8A52B7777D9a264d8196814e";
+  const bankAddress = "0xa4673E70d351B6Ad072d7855e89CBB33400Ca541";
   const [accounts, setAccounts] = useState([])
 
   useEffect(() => {
