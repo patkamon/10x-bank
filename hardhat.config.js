@@ -21,7 +21,7 @@ module.exports = {
     defaultNetwork: "hardhat",
   solidity: "0.8.0",
   paths: {
-    artifacts: "./src/artifacts"
+    artifacts: "./pages/artifacts"
   },
   networks: {
     hardhat: {
