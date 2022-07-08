@@ -94,6 +94,8 @@ function Withdraw(){
 
   function Transfer(){
 
+    const [isMulti, setMulti] = useState(false)
+
     const CSVToArray = (data, delimiter = ',') =>
     data
     .slice(0)
@@ -101,7 +103,7 @@ function Withdraw(){
     .map(v => v.split(delimiter));
 
 
-    async function onTransfer(e){
+    async function onMultiTransfer(e){
         e.preventDefault()
         const bigArray = CSVToArray(e.target[0].value)
         const to = bigArray.map((a)=>a[0])
@@ -118,19 +120,55 @@ function Withdraw(){
 
         }
       }
+      async function onTransfer(e){
+        e.preventDefault()
+        if (typeof window.ethereum !== 'undefined') {
+          await requestAccount()
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner()
+
+            let amount = ethers.utils.parseUnits(e.target[1].value, 18)
+            const contract = new ethers.Contract(bankAddress, Bank.abi, signer)
+            const transaction = contract.transfer(info.name, fau,e.target[0].value,  amount)
+
+        }
+      }
 
 
 
 
     return <div>
         {option === 'transfer'? 
+
+            !isMulti ? 
+
+            (
+            <div>
+                <button onClick={()=>setMulti(false)}>Single</button>
+                <button onClick={()=>setMulti(true)}>Multi</button>
+
             <form onSubmit={onTransfer}>
+                transfer
+                to:<input></input>
+                amount:<input></input>
+                <button>submit</button>
+            </form>
+            </div>)
+            :
+            (   <div>
+                <button onClick={()=>setMulti(false)}>Single</button>
+                <button onClick={()=>setMulti(true)}>Multi</button>
+
+                <form onSubmit={onMultiTransfer}>
                 transfer
                 csv:<textarea></textarea>
                 <input type='submit'></input>
             </form>
+                </div>)
+            
+            
         : <></>
-    }
+        }
     </div>
   }
 
