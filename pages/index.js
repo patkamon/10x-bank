@@ -62,8 +62,11 @@ export default function Home() {
           <button > create </button>
         </form>
 
-       <Account accounts={accounts}/>
-
+       {/* <Account accounts={accounts}/> */}
+       {accounts.map((account,index)=>{
+         return ( <Account key={account} account={account}/>)
+       
+       })}
         
 
     </div>
