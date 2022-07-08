@@ -1,6 +1,7 @@
 import { ethers } from 'ethers'
 import Bank from '../artifacts/contracts/Bank.sol/Bank.json'
 import ERC20 from '../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json'
+import {useState} from 'react'
 
 export default function Option({info,option}) {
 
@@ -26,7 +27,6 @@ export default function Option({info,option}) {
 
 function Deposit(){
     async function onDeposit(e){
-        console.log(info)
         e.preventDefault()
         if (typeof window.ethereum !== 'undefined') {
           await requestAccount()
@@ -64,7 +64,6 @@ function Deposit(){
 function Withdraw(){
 
     async function onWithdraw(e){
-        console.log(info)
         e.preventDefault()
         if (typeof window.ethereum !== 'undefined') {
           await requestAccount()
@@ -94,12 +93,41 @@ function Withdraw(){
   }
 
   function Transfer(){
+
+    const CSVToArray = (data, delimiter = ',') =>
+    data
+    .slice(0)
+    .split('\n')
+    .map(v => v.split(delimiter));
+
+
+    async function onTransfer(e){
+        e.preventDefault()
+        const bigArray = CSVToArray(e.target[0].value)
+        const to = bigArray.map((a)=>a[0])
+        const amount = bigArray.map((a)=>a[1])
+        const token = amount.map((a)=>fau)
+        if (typeof window.ethereum !== 'undefined') {
+          await requestAccount()
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner()
+
+            let amountParse = await amount.map((a)=>ethers.utils.parseEther(a))
+            const contract = new ethers.Contract(bankAddress, Bank.abi, signer)
+            const transaction = contract.multipleTransfer(info.name, token, to, amountParse)
+
+        }
+      }
+
+
+
+
     return <div>
         {option === 'transfer'? 
-            <form>
+            <form onSubmit={onTransfer}>
                 transfer
-                to:<input></input>
-                amount:<input></input>
+                csv:<textarea></textarea>
+                <input type='submit'></input>
             </form>
         : <></>
     }
