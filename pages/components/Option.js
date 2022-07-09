@@ -52,9 +52,9 @@ function Deposit(){
                 </h2>
             <form onSubmit={onDeposit} > 
               <div className='flex flex-row justify-center'>
-                <label htmlFor='amount' className='pr-10 pl-10 font-semibold text-lg'>Amount:</label>
+                <label htmlFor='amount' className='pr-0 pl-10 sm:pr-10 font-semibold text-lg'>Amount:</label>
                 <input type='number' min="0" step=".0001" id='amount'  className="pl-2 grow border-solid border-2 border-indigo-300"></input>
-                <label htmlFor='amount' className='pl-10 pr-10 font-semibold text-lg'>FAU</label>
+                <label htmlFor='amount' className='pl-0 pr-10 sm:pl-10  font-semibold text-lg'>FAU</label>
               </div>
               <div className='flex flex-row justify-end'>
                 <button className='mt-5 mb-0 bg-scb1 hover:bg-scb2 order-last py-2 px-4 rounded text-white'>Submit</button>
@@ -104,9 +104,9 @@ function Withdraw(){
              </h2>
          <form onSubmit={onWithdraw} > 
            <div className='flex flex-row justify-center'>
-             <label htmlFor='amount' className='pr-10 pl-10 font-semibold text-lg'>Amount:</label>
+             <label htmlFor='amount' className='pr-0 pl-10 sm:pr-10 font-semibold text-lg'>Amount:</label>
              <input id='amount' type='number' min="0" step=".0001" className="pl-2 grow border-solid border-2 border-indigo-300"></input>
-             <label htmlFor='amount' className='pl-10 pr-10 font-semibold text-lg'>FAU</label>
+             <label htmlFor='amount' className='pl-0 pr-10 sm:pl-10 font-semibold text-lg'>FAU</label>
            </div>
            <div className='flex flex-row justify-end'>
              <button className='mt-5 mb-0 bg-scb1 hover:bg-scb2 order-last py-2 px-4 rounded text-white'>Submit</button>
@@ -172,7 +172,7 @@ function Withdraw(){
             !isMulti ? 
 
             (
-                <div className='mx-10 my-5'>
+                <div className='mx-1 sm:mx-10 my-5'>
 
 <h2 className='font-semibold text-lg text-scb2'>
                  Transfer
@@ -186,7 +186,7 @@ function Withdraw(){
                 </div>
 
             <form onSubmit={onTransfer} className="grid gap-y-1 grid-cols-transfer">
-                <label htmlFor='name' className='pr-10 pl-10 font-semibold text-lg'>Account Name:</label>
+                <label htmlFor='name' className='pr-10 pl-2 sm:pl-10 font-semibold text-lg'>Account Name:</label>
                 <input id='name'  className="pl-2 grow border-solid border-2 border-indigo-300"></input>
               <div></div>
                 <label htmlFor='amount' className='pr-10 pl-10 font-semibold text-lg'>Amount:</label>

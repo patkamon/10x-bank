@@ -88,7 +88,7 @@ export default function Home() {
     <div className={styles.container}>
     
     <Navbar/>
-      <div className=" mx-44 mt-5">
+      <div className="lg:mx-44  sm:mx-10 mt-5">
       <h1 className="pl-1 font-semibold text-lg">My Accounts:</h1>
 
        {accounts.map((account,index)=>{
@@ -110,7 +110,7 @@ export default function Home() {
 
         {isCreate ?
 
-        <form className='flex flex-col justify-center my-10 mx-5' onSubmit={createAccount}>
+        <form className='flex flex-col justify-center my-10 mx-5 ' onSubmit={createAccount}>
         <div className='flex flex-row'>
         <label htmlFor='account-name' className='text-lg  font-normal'>Account name:</label>
      

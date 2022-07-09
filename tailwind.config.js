@@ -12,7 +12,10 @@ module.exports = {
         'scb3': 'rgb(252,175,23)',
       },
       gridTemplateColumns: {
-        'transfer': '250px minmax(30%, 1fr) 100px',
+        'transfer': 'minmax(10%, 250px) minmax(30%, 1fr) minmax(10%, 100px)',
+      },
+      screens: {
+        'xs': '320px',
       }
     },
   },
