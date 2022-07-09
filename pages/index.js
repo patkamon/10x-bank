@@ -2,6 +2,7 @@ import styles from '../styles/Home.module.css'
 import Navbar from './components/Navbar'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
 
 import Bank from './artifacts/contracts/Bank.sol/Bank.json'
 import Account from './components/Account';
@@ -38,14 +39,28 @@ export default function Home() {
 
   async function createAccount(e){
     e.preventDefault()
-    if (typeof window.ethereum !== 'undefined') {
-      await requestAccount()
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner()
-    
-        const contract = new ethers.Contract(bankAddress, Bank.abi, signer)
-        const transaction = contract.createAccount(e.target[0].value)
+    if (!(!/[^a-zA-Z0-9]/.test(e.target[0].value))){
+        toast.error("Name can be only a-z A-Z 0-9")
+    }
+    else{
+      if (typeof window.ethereum !== 'undefined') {
+        await requestAccount()
+          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          const signer = provider.getSigner()
+      
+          const contract = new ethers.Contract(bankAddress, Bank.abi, signer)
 
+          const check  = await contract.getAccounts(e.target[0].value)
+          if (check == "0x0000000000000000000000000000000000000000"){
+          const transaction = await contract.createAccount(e.target[0].value)
+          const wait = await transaction.wait()
+          toast.success(`Created successfully`)
+          fetchAccount()
+          }else{
+            toast.error(`Name already used!`)
+          }
+
+      }
     }
   }
 
@@ -83,7 +98,7 @@ export default function Home() {
            <div className='bottom-0 w-full flex flex-row justify-around'>
         <button className={`hover:bg-scb1 hover:text-white font-semibold text-lg border-solid py-3 grow border-r-2 border-indigo-600 ${findOption(index) === 'deposit'? "text-white bg-scb1" : "border-t-2 text-black bg-white"}`}  onClick={()=>{findOption(index) === 'deposit' ? changeOption(index,"") : changeOption(index,"deposit")}}>Deposit </button>
         <button className={`hover:bg-scb1 hover:text-white font-semibold text-lg border-solid py-3 grow border-r-2 border-indigo-600 ${findOption(index) === 'withdraw'? "text-white bg-scb1" : "border-t-2 text-black bg-white"}`}  onClick={()=>{findOption(index) === 'withdraw' ? changeOption(index,"") : changeOption(index,"withdraw")}}>Withdraw </button>
-        <button  className={`hover:bg-scb1 hover:text-white font-semibold text-lg border-solid py-3 grow border-r-2 border-indigo-600 ${findOption(index) === 'transfer'? "text-white bg-scb1" : "border-t-2 text-black bg-white"}`}  onClick={()=>{findOption(index) === 'transfer' ? changeOption(index,"") : changeOption(index,"transfer")}}>Transfer </button>
+        <button  className={`hover:bg-scb1 hover:text-white font-semibold text-lg border-solid py-3 grow border-indigo-600 ${findOption(index) === 'transfer'? "text-white bg-scb1" : "border-t-2 text-black bg-white"}`}  onClick={()=>{findOption(index) === 'transfer' ? changeOption(index,"") : changeOption(index,"transfer")}}>Transfer </button>
         </div>
          </div>
          )
@@ -99,7 +114,7 @@ export default function Home() {
         <div className='flex flex-row'>
         <label htmlFor='account-name' className='text-lg  font-normal'>Account name:</label>
      
-          <input id='account-name' className=" pl-2 mx-3 grow border-solid border-2 border-indigo-300"></input>
+          <input id='account-name'  className=" pl-2 mx-3 grow border-solid border-2 border-indigo-300"></input>
           </div>
 
           <div className='flex flex-row '>
