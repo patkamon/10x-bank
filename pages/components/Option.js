@@ -80,8 +80,8 @@ function Withdraw(){
             let check = new ethers.Contract(info.address, Account.abi, signer)
             
             let amount = ethers.utils.parseUnits(e.target[0].value, 18)
-            check = await check.tokenToAmount(fau) >= amount 
-            if (check.tokenToAmount(fau) >= amount ){
+            check = await check.getTokenAmount(fau)
+            if (check >= amount){
             const contract = new ethers.Contract(bankAddress, Bank.abi, signer)
             const transaction = await contract.withdraw(info.name, fau, amount)
             const wait = transaction.wait()

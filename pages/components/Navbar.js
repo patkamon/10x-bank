@@ -30,7 +30,7 @@ export default function Navbar() {
   
     return (
       <nav className="m-0 p-5 font-bold  flex flex-row justify-between ">
-          <h1 className="text-3xl font-bold">🚀 10XBank</h1>
+          <h1 className="text-3xl text-scb1 font-bold">🚀 10XBank</h1>
           <button onClick={() => callMetaMask()} className=" bg-scb1 hover:bg-scb2 text-white font-bold py-2 px-4 rounded">{status}</button>
       </nav>
     );
