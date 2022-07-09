@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 
 import Bank from './artifacts/contracts/Bank.sol/Bank.json'
 import Account from './components/Account';
-import { arrayify } from 'ethers/lib/utils';
 
 export default function Home() {
 
@@ -82,9 +81,9 @@ export default function Home() {
            <Account  account={account} option={findOption(index) }/>
 
            <div className='bottom-0 w-full flex flex-row justify-around'>
-        <button className=" font-semibold text-lg border-solid py-3 grow border-t-2 border-r-2 border-indigo-600"  onClick={()=>{findOption(index) === 'deposit' ? changeOption(index,"") : changeOption(index,"deposit")}}>Deposit </button>
-        <button className="font-semibold text-lg border-solid py-3 grow border-t-2 border-r-2 border-indigo-600"  onClick={()=>{findOption(index) === 'withdraw' ? changeOption(index,"") : changeOption(index,"withdraw")}}>Withdraw </button>
-        <button  className="font-semibold text-lg border-solid py-3 grow border-t-2 border-indigo-600"  onClick={()=>{findOption(index) === 'transfer' ? changeOption(index,"") : changeOption(index,"transfer")}}>Transfer </button>
+        <button className={`hover:bg-scb1 hover:text-white font-semibold text-lg border-solid py-3 grow border-r-2 border-indigo-600 ${findOption(index) === 'deposit'? "text-white bg-scb1" : "border-t-2 text-black bg-white"}`}  onClick={()=>{findOption(index) === 'deposit' ? changeOption(index,"") : changeOption(index,"deposit")}}>Deposit </button>
+        <button className={`hover:bg-scb1 hover:text-white font-semibold text-lg border-solid py-3 grow border-r-2 border-indigo-600 ${findOption(index) === 'withdraw'? "text-white bg-scb1" : "border-t-2 text-black bg-white"}`}  onClick={()=>{findOption(index) === 'withdraw' ? changeOption(index,"") : changeOption(index,"withdraw")}}>Withdraw </button>
+        <button  className={`hover:bg-scb1 hover:text-white font-semibold text-lg border-solid py-3 grow border-r-2 border-indigo-600 ${findOption(index) === 'transfer'? "text-white bg-scb1" : "border-t-2 text-black bg-white"}`}  onClick={()=>{findOption(index) === 'transfer' ? changeOption(index,"") : changeOption(index,"transfer")}}>Transfer </button>
         </div>
          </div>
          )
