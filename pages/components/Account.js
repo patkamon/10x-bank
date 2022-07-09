@@ -1,15 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ethers} from 'ethers'
 
 import Acc from '../artifacts/contracts/Account.sol/Account.json'
 import ERC20 from '../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json'
 import Option from './Option';
+import { Context } from '../lib/context';
 
 export default function Account({account, option}) { 
 
-    // const [option, setOption] = useState("")
     const [name, setName] = useState("")
     const [balance, setBalance] = useState()
+    const {fau} = useContext(Context)
 
     useEffect(()=>{
         getName(account)
@@ -33,13 +34,12 @@ export default function Account({account, option}) {
         async function getBalance(_addr){
             if (typeof window.ethereum !== 'undefined') {
               const provider = new ethers.providers.Web3Provider(window.ethereum);
-              const contract = new ethers.Contract("0xba62bcfcaafc6622853cca2be6ac7d845bc0f2dc", ERC20.abi, provider)
+              const contract = new ethers.Contract(fau, ERC20.abi, provider)
               try {
                 let b = await contract.balanceOf(_addr)
                 b = parseInt(b._hex,16)
                 b = parseFloat(b)/10**18
                 setBalance(b)
-                // return await contract.balanceOf(a)
               } catch (err) {
                 console.log("Error: ", err)
               }

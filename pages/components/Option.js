@@ -1,28 +1,26 @@
 import { ethers } from 'ethers'
+import Account from '../artifacts/contracts/Account.sol/Account.json'
 import Bank from '../artifacts/contracts/Bank.sol/Bank.json'
 import ERC20 from '../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json'
-import {useState} from 'react'
+import {useState,useContext} from 'react'
 import { toast } from 'react-hot-toast';
+import { Context } from '../lib/context'
 
 export default function Option({info,option}) {
 
+    const {bankAddress,fau} = useContext(Context)
 
-    const bankAddress = "0xa4673E70d351B6Ad072d7855e89CBB33400Ca541";
-    const fau = "0xba62bcfcaafc6622853cca2be6ac7d845bc0f2dc";
+
 
     async function requestAccount() {
         await window.ethereum.request({ method: 'eth_requestAccounts' });
     }
-
-
-   
 
     return (  <div className='m-0 p-0'>
         <Deposit  />
         <Withdraw />
         <Transfer/>
         </div>
-
     )
 
 
@@ -38,12 +36,11 @@ function Deposit(){
 
             const app = new ethers.Contract(fau, ERC20.abi, signer)
             const app2 =  await app.approve(info.address,  amount)
-            // setTimeout(function () {
             const recieptApp = await app2.wait()
             const contract = new ethers.Contract(bankAddress, Bank.abi, signer)
-            const transaction = contract.deposit(info.name, fau, amount)
-            // },20000)
-    
+            const transaction = await contract.deposit(info.name, fau, amount)
+            const wait = transaction.wait()
+            toast.success("Deposit successfully")
         }
       }
 
@@ -56,7 +53,7 @@ function Deposit(){
             <form onSubmit={onDeposit} > 
               <div className='flex flex-row justify-center'>
                 <label htmlFor='amount' className='pr-10 pl-10 font-semibold text-lg'>Amount:</label>
-                <input id='amount'  className="pl-2 grow border-solid border-2 border-indigo-300"></input>
+                <input type='number' min="0" step=".0001" id='amount'  className="pl-2 grow border-solid border-2 border-indigo-300"></input>
                 <label htmlFor='amount' className='pl-10 pr-10 font-semibold text-lg'>FAU</label>
               </div>
               <div className='flex flex-row justify-end'>
@@ -80,10 +77,18 @@ function Withdraw(){
           await requestAccount()
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const signer = provider.getSigner()
-
+            let check = new ethers.Contract(info.address, Account.abi, signer)
+            
             let amount = ethers.utils.parseUnits(e.target[0].value, 18)
+            check = await check.tokenToAmount(fau) >= amount 
+            if (check.tokenToAmount(fau) >= amount ){
             const contract = new ethers.Contract(bankAddress, Bank.abi, signer)
-            const transaction = contract.withdraw(info.name, fau, amount)
+            const transaction = await contract.withdraw(info.name, fau, amount)
+            const wait = transaction.wait()
+            toast.success("Withdraw successfully")
+            }else{
+              toast.error("Exceed your balance!")
+            }
 
         }
       }
@@ -100,7 +105,7 @@ function Withdraw(){
          <form onSubmit={onWithdraw} > 
            <div className='flex flex-row justify-center'>
              <label htmlFor='amount' className='pr-10 pl-10 font-semibold text-lg'>Amount:</label>
-             <input id='amount'  className="pl-2 grow border-solid border-2 border-indigo-300"></input>
+             <input id='amount' type='number' min="0" step=".0001" className="pl-2 grow border-solid border-2 border-indigo-300"></input>
              <label htmlFor='amount' className='pl-10 pr-10 font-semibold text-lg'>FAU</label>
            </div>
            <div className='flex flex-row justify-end'>
@@ -137,8 +142,9 @@ function Withdraw(){
 
             let amountParse = await amount.map((a)=>ethers.utils.parseEther(a))
             const contract = new ethers.Contract(bankAddress, Bank.abi, signer)
-            const transaction = contract.multipleTransfer(info.name, token, to, amountParse)
-
+            const transaction = await contract.multipleTransfer(info.name, token, to, amountParse)
+            const wait =  await transaction.wait()
+            toast.success("Transfer successfully")
         }
       }
       async function onTransfer(e){
@@ -150,8 +156,9 @@ function Withdraw(){
 
             let amount = ethers.utils.parseUnits(e.target[1].value, 18)
             const contract = new ethers.Contract(bankAddress, Bank.abi, signer)
-            const transaction = contract.transfer(info.name, fau,e.target[0].value,  amount)
-
+            const transaction = await contract.transfer(info.name, fau,e.target[0].value,  amount)
+            const wait =  await transaction.wait()
+            toast.success("Transfer successfully")
         }
       }
 
@@ -179,11 +186,11 @@ function Withdraw(){
                 </div>
 
             <form onSubmit={onTransfer} className="grid gap-y-1 grid-cols-transfer">
-                <label htmlFor='amount' className='pr-10 pl-10 font-semibold text-lg'>Account Name:</label>
-                <input id='amount'  className="pl-2 grow border-solid border-2 border-indigo-300"></input>
+                <label htmlFor='name' className='pr-10 pl-10 font-semibold text-lg'>Account Name:</label>
+                <input id='name'  className="pl-2 grow border-solid border-2 border-indigo-300"></input>
               <div></div>
                 <label htmlFor='amount' className='pr-10 pl-10 font-semibold text-lg'>Amount:</label>
-                <input id='amount'  className="pl-2 grow border-solid border-2 border-indigo-300"></input>
+                <input id='amount' type='number' min="0" step=".0001"  className="pl-2 grow border-solid border-2 border-indigo-300"></input>
                 <label htmlFor='amount' className='pl-10 pr-10 font-semibold text-lg'>FAU</label>
 
                 <div></div><div></div>

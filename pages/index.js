@@ -1,15 +1,16 @@
 import styles from '../styles/Home.module.css'
 import Navbar from './components/Navbar'
 import { ethers } from 'ethers'
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
 import Bank from './artifacts/contracts/Bank.sol/Bank.json'
 import Account from './components/Account';
+import { Context } from './lib/context';
 
 export default function Home() {
 
-  const bankAddress = "0xa4673E70d351B6Ad072d7855e89CBB33400Ca541";
+  const {bankAddress} = useContext(Context)
   const [accounts, setAccounts] = useState([])
   const [isCreate, setCreate] = useState(false)
   const [option, setOption] = useState([])
@@ -29,7 +30,6 @@ export default function Home() {
       try {
         const signer = provider.getSigner()
         const data = await contract.getAllAccounts(signer.getAddress())
-        console.log(data)
         setAccounts(data)
       } catch (err) {
         console.log("Error: ", err)
@@ -56,10 +56,10 @@ export default function Home() {
           const wait = await transaction.wait()
           toast.success(`Created successfully`)
           fetchAccount()
+          e.target[0].value = ""
           }else{
             toast.error(`Name already used!`)
           }
-
       }
     }
   }

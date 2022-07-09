@@ -18,6 +18,10 @@ contract Account {
         return tokens;
     }
 
+    function getTokenAmount(address _a) public view returns (uint256) {
+        return tokenToAmount[_a];
+    }
+
     function deposit(address token, uint256 amount) external payable {
         require(tx.origin == owner, "You are not owner of this account!");
         require(amount > 0, "Amount must be greater than 0!!");
