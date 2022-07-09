@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import { ethers} from 'ethers'
 
-import Acc from '../artifacts/contracts/Account.sol/Account.json'
-import ERC20 from '../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json'
+import Acc from '../abis/Account.json'
+import ERC20 from '../abis/ERC20.json'
 import Option from './Option';
 import { Context } from '../lib/context';
 

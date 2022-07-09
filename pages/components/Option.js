@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
-import Account from '../artifacts/contracts/Account.sol/Account.json'
-import Bank from '../artifacts/contracts/Bank.sol/Bank.json'
-import ERC20 from '../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json'
+import Account from '../abis/Account.json'
+import Bank from '../abis/Bank.json'
+import ERC20 from '../abis/ERC20.json'
 import {useState,useContext} from 'react'
 import { toast } from 'react-hot-toast';
 import { Context } from '../lib/context'

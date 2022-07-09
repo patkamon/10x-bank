@@ -4,7 +4,7 @@ import { ethers } from 'ethers'
 import { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
-import Bank from './artifacts/contracts/Bank.sol/Bank.json'
+import Bank from './abis/Bank.json'
 import Account from './components/Account';
 import { Context } from './lib/context';
 
