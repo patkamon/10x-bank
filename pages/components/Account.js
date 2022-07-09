@@ -5,9 +5,9 @@ import Acc from '../artifacts/contracts/Account.sol/Account.json'
 import ERC20 from '../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json'
 import Option from './Option';
 
-export default function Account({account}) { 
+export default function Account({account, option}) { 
 
-    const [option, setOption] = useState("")
+    // const [option, setOption] = useState("")
     const [name, setName] = useState("")
     const [balance, setBalance] = useState()
 
@@ -49,7 +49,7 @@ export default function Account({account}) {
 
 
 
-    return(<div className='mt-3 mb-7 border-solid border-2 border-indigo-600 '>
+    return(<div >
 
       <div className='m-10 grid grid-cols-3'>
 
@@ -75,15 +75,7 @@ export default function Account({account}) {
         
 
         <Option info={{name:name, address:account}}  option={option}/>
-
-
-
-        
-        <div className='bottom-0 w-full flex flex-row justify-around'>
-        <button className=" font-semibold text-lg border-solid py-3 grow border-t-2 border-r-2 border-indigo-600" onClick={()=>{option === 'deposit' ? setOption() : setOption("deposit")}}>Deposit </button>
-        <button className="font-semibold text-lg border-solid py-3 grow border-t-2 border-r-2 border-indigo-600"  onClick={()=>{option === 'withdraw' ? setOption() : setOption("withdraw")}}>Withdraw </button>
-        <button  className="font-semibold text-lg border-solid py-3 grow border-t-2 border-indigo-600" onClick={()=>{option === 'transfer' ? setOption() : setOption("transfer")}}>Transfer </button>
-        </div>
+       
         </div>)
 
 
