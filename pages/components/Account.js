@@ -49,16 +49,41 @@ export default function Account({account}) {
 
 
 
-    return(<div>
-       Name: {name} 
-       Address: {account}
-       Balance: {balance} FAU
+    return(<div className='mt-3 mb-7 border-solid border-2 border-indigo-600 '>
+
+      <div className='m-10 grid grid-cols-3'>
+
+            <h2 className='font-semibold text-lg'>
+              Account Name:  
+            </h2>
+            <h2 className='ml-10 font-medium text-lg'>
+              {name}
+            </h2>
+            <div></div>
+
+
+      
+        <h2 className='font-semibold text-lg'>
+       Balance: 
+       </h2>
+       <h2 className='ml-10 font-medium text-lg'>
+       {balance} 
+            </h2>
+            <h2 className='ml-10 font-semibold text-lg'>FAU</h2>
+
+      </div>
         
 
         <Option info={{name:name, address:account}}  option={option}/>
-        <span onClick={()=>{option === 'deposit' ? setOption() : setOption("deposit")}}>deposit </span>
-        <span onClick={()=>{option === 'withdraw' ? setOption() : setOption("withdraw")}}>withdraw </span>
-        <span onClick={()=>{option === 'transfer' ? setOption() : setOption("transfer")}}>transfer </span>
+
+
+
+        
+        <div className='bottom-0 w-full flex flex-row justify-around'>
+        <button className=" font-semibold text-lg border-solid py-3 grow border-t-2 border-r-2 border-indigo-600" onClick={()=>{option === 'deposit' ? setOption() : setOption("deposit")}}>Deposit </button>
+        <button className="font-semibold text-lg border-solid py-3 grow border-t-2 border-r-2 border-indigo-600"  onClick={()=>{option === 'withdraw' ? setOption() : setOption("withdraw")}}>Withdraw </button>
+        <button  className="font-semibold text-lg border-solid py-3 grow border-t-2 border-indigo-600" onClick={()=>{option === 'transfer' ? setOption() : setOption("transfer")}}>Transfer </button>
+        </div>
         </div>)
 
 

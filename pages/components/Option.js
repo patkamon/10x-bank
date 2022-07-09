@@ -2,6 +2,7 @@ import { ethers } from 'ethers'
 import Bank from '../artifacts/contracts/Bank.sol/Bank.json'
 import ERC20 from '../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json'
 import {useState} from 'react'
+import { toast } from 'react-hot-toast';
 
 export default function Option({info,option}) {
 
@@ -16,7 +17,7 @@ export default function Option({info,option}) {
 
    
 
-    return (  <div>
+    return (  <div className='m-0 p-0'>
         <Deposit  />
         <Withdraw />
         <Transfer/>
@@ -48,11 +49,21 @@ function Deposit(){
 
     return <div>
         {option === 'deposit'? 
-            <form onSubmit={onDeposit}> 
-                deposit
-                amount:<input></input>
-                <button>submit</button>
+        <div className='mx-10 my-5'>
+              <h2 className='font-semibold text-lg text-scb2'>
+                    Deposit
+                </h2>
+            <form onSubmit={onDeposit} > 
+              <div className='flex flex-row justify-center'>
+                <label htmlFor='amount' className='pr-10 pl-10 font-semibold text-lg'>Amount:</label>
+                <input id='amount'  className="pl-2 grow border-solid border-2 border-indigo-300"></input>
+                <label htmlFor='amount' className='pl-10 pr-10 font-semibold text-lg'>FAU</label>
+              </div>
+              <div className='flex flex-row justify-end'>
+                <button className='mt-5 mb-0 bg-scb1 hover:bg-scb2 order-last py-2 px-4 rounded text-white'>Submit</button>
+              </div>
             </form>
+        </div>
         : <></>
     }
     </div>
@@ -82,11 +93,21 @@ function Withdraw(){
     return <div>
         {option === 'withdraw'? 
            
-           <form onSubmit={onWithdraw}> 
-                withdraw
-                amount:<input></input>
-                <button>submit</button>
-            </form>
+           <div className='mx-10 my-5'>
+           <h2 className='font-semibold text-lg text-scb2'>
+                 Withdraw
+             </h2>
+         <form onSubmit={onWithdraw} > 
+           <div className='flex flex-row justify-center'>
+             <label htmlFor='amount' className='pr-10 pl-10 font-semibold text-lg'>Amount:</label>
+             <input id='amount'  className="pl-2 grow border-solid border-2 border-indigo-300"></input>
+             <label htmlFor='amount' className='pl-10 pr-10 font-semibold text-lg'>FAU</label>
+           </div>
+           <div className='flex flex-row justify-end'>
+             <button className='mt-5 mb-0 bg-scb1 hover:bg-scb2 order-last py-2 px-4 rounded text-white'>Submit</button>
+           </div>
+         </form>
+     </div>
         : <></>
     }
     </div>
@@ -140,30 +161,66 @@ function Withdraw(){
     return <div>
         {option === 'transfer'? 
 
+
             !isMulti ? 
 
             (
-            <div>
-                <button onClick={()=>setMulti(false)}>Single</button>
-                <button onClick={()=>setMulti(true)}>Multi</button>
+                <div className='mx-10 my-5'>
 
-            <form onSubmit={onTransfer}>
-                transfer
-                to:<input></input>
-                amount:<input></input>
-                <button>submit</button>
+<h2 className='font-semibold text-lg text-scb2'>
+                 Transfer
+             </h2>
+             <div className='my-2'>
+                <label htmlFor="yellow-toggle" className="inline-flex relative items-center mr-5 cursor-pointer">
+                <input type="checkbox" value="" onChange={()=>{setMulti(!isMulti)}} id="yellow-toggle" className="sr-only peer" />
+                <div className="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 dark:peer-focus:ring-yellow-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-scb3"></div>
+                <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Multiple</span>
+                </label>
+                </div>
+
+            <form onSubmit={onTransfer} className="grid gap-y-1 grid-cols-transfer">
+                <label htmlFor='amount' className='pr-10 pl-10 font-semibold text-lg'>Account Name:</label>
+                <input id='amount'  className="pl-2 grow border-solid border-2 border-indigo-300"></input>
+              <div></div>
+                <label htmlFor='amount' className='pr-10 pl-10 font-semibold text-lg'>Amount:</label>
+                <input id='amount'  className="pl-2 grow border-solid border-2 border-indigo-300"></input>
+                <label htmlFor='amount' className='pl-10 pr-10 font-semibold text-lg'>FAU</label>
+
+                <div></div><div></div>
+              <div className='flex flex-row justify-end'>
+             <button className='mt-5 mb-0 bg-scb1 hover:bg-scb2 order-last py-2 px-4 rounded text-white'>Submit</button>
+           </div>
             </form>
             </div>)
             :
-            (   <div>
-                <button onClick={()=>setMulti(false)}>Single</button>
-                <button onClick={()=>setMulti(true)}>Multi</button>
+            (   
+                <div className='mx-10 my-5'>
+
+<h2 className='font-semibold text-lg text-scb2'>
+                 Transfer
+             </h2>
+                <div className='my-2'>
+                <label htmlFor="yellow-toggle" className="inline-flex relative items-center mr-5 cursor-pointer">
+                <input type="checkbox" value="" onChange={()=>{setMulti(!isMulti)}} id="yellow-toggle" className="sr-only peer" />
+                <div className="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 dark:peer-focus:ring-yellow-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-scb3"></div>
+                <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Multiple</span>
+                </label>
+                </div>
 
                 <form onSubmit={onMultiTransfer}>
-                transfer
-                csv:<textarea></textarea>
-                <input type='submit'></input>
+                
+                <label htmlFor="csv" className="block mb-2pl-10 pr-10 font-semibold text-lg">CSV: </label>
+                <textarea id="csv" rows="3"  className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='Account Name, amount'></textarea>
+
+
+              <div className='flex flex-row justify-between'>
+              
+              <button type='button' onClick={()=>toast("Patlom,1.2\nBounk,0.2\nJohnDoe,4")} className='mt-5 mr-3 mb-0 bg-scb1 hover:bg-scb2 order-last py-2 px-4 rounded text-white'>Example</button>     
+             <input type='submit' className='mt-5 t-5 mb-0 bg-scb1 hover:bg-scb2 order-last py-2 px-4 rounded text-white' value='Submit'/>
+             </div>
             </form>
+           
+
                 </div>)
             
             
