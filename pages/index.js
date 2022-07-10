@@ -1,12 +1,12 @@
 import styles from '../styles/Home.module.css'
-import Navbar from './components/Navbar'
+import Navbar from '../components/Navbar'
 import { ethers } from 'ethers'
 import { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
-import Bank from './abis/Bank.json'
-import Account from './components/Account';
-import { Context } from './lib/context';
+import Bank from '../abis/Bank.json'
+import Account from '../components/Account';
+import { Context } from '../lib/context';
 
 export default function Home() {
 
