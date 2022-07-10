@@ -31,6 +31,10 @@ contract Account {
             contractToken.allowance(tx.origin, address(this)) >= amount,
             "Not allow yet!!"
         );
+        require(
+            contractToken.balanceOf(tx.origin) >= amount,
+            "Do not have this amount of token"
+        );
         contractToken.transferFrom(tx.origin, address(this), amount);
         // in case not involve with this token before
         if (tokenToAmount[token] == 0) {

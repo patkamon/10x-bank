@@ -32,16 +32,21 @@ export default function Option({ info, option, func }) {
         let amount = ethers.utils.parseUnits(e.target[0].value, 18);
 
         const app = new ethers.Contract(fau, ERC20.abi, signer);
-        const app2 = await app.approve(info.address, amount);
-        const recieptApp = await app2.wait();
-        const contract = new ethers.Contract(bankAddress, Bank.abi, signer);
-        const transaction = await contract.deposit(info.name, fau, amount);
-        const wait = transaction.wait();
-        toast.success("Deposit successfully");
-        setTimeout(() => {
-          func(info.address);
-          e.target[0].value = "";
-        }, 10000);
+        const check = await app.balanceOf(signer.getAddress());
+        if (check >= amount) {
+          const app2 = await app.approve(info.address, amount);
+          const recieptApp = await app2.wait();
+          const contract = new ethers.Contract(bankAddress, Bank.abi, signer);
+          const transaction = await contract.deposit(info.name, fau, amount);
+          const wait = transaction.wait();
+          toast.success("Deposit successfully");
+          setTimeout(() => {
+            func(info.address);
+            e.target[0].value = "";
+          }, 10000);
+        } else {
+          toast.error("You don't have this amount of token");
+        }
       }
     }
 

@@ -7,7 +7,7 @@ function MyApp({ Component, pageProps }) {
     <Context.Provider
       value={{
         fau: "0xba62bcfcaafc6622853cca2be6ac7d845bc0f2dc",
-        bankAddress: "0xBeae3420f7E33A28eC9b0Cd09e74242b618a085C",
+        bankAddress: "0x7F74738A6d0848fBD77421687790DB5A806BCAE9",
       }}
     >
       <Component {...pageProps} />

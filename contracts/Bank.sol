@@ -29,6 +29,11 @@ contract Bank {
         uint256 amount
     ) external payable {
         require(address(accounts[name]) != address(0), "Not found account!");
+        ERC20 contractToken = ERC20(token);
+        require(
+            contractToken.balanceOf(tx.origin) >= amount,
+            "Do not have this amount of token"
+        );
         Account acc = Account(accounts[name]);
         acc.deposit(token, amount);
     }
