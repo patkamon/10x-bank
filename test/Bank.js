@@ -2,7 +2,7 @@ const { expect } = require("chai");
 const { ethers } = require("hardhat");
 const { constants } = require("@openzeppelin/test-helpers");
 
-describe("Bank contract", function () {
+describe("Bank Contract test", function () {
   let accounts, owner, bank, token;
   let initialBalance = ethers.utils.parseUnits("1", 18);
 
@@ -16,7 +16,7 @@ describe("Bank contract", function () {
     token = await Token.deploy("testing", "10X");
     bank = await Bank.deploy();
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 3; i++) {
       await token.transfer(accounts[i].address, initialBalance);
     }
   });
