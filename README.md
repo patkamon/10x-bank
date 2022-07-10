@@ -37,4 +37,4 @@ to deploy bank contract don't forget to save contract address
 **last step:**
 
 go to `pages/\_app.js` change `fau` value to your prefer erc20 token address and `bankAddress` (no need if you use goerli testnet) to new contract address.  
-*If you change network consider changing `components/Navbar.js` line 27 to your prefer network chainID.*
+*If you change network consider changing `components/Navbar.js` line 8,27 to your prefer network chainID.*
