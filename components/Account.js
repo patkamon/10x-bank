@@ -29,6 +29,7 @@ export default function Account({ account, option }) {
   }
 
   async function getBalance(_addr) {
+    setBalance(" ");
     if (typeof window.ethereum !== "undefined") {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const contract = new ethers.Contract(fau, ERC20.abi, provider);
@@ -51,11 +52,17 @@ export default function Account({ account, option }) {
         <div></div>
 
         <h2 className="font-semibold text-lg">Balance:</h2>
-        <h2 className="ml-10 font-medium text-lg">{balance}</h2>
+        <h2 className="ml-10 font-medium text-lg">
+          {balance} <button onClick={() => getBalance(account)}>↻</button>{" "}
+        </h2>
         <h2 className="ml-10 font-semibold text-lg">FAU</h2>
       </div>
 
-      <Option info={{ name: name, address: account }} option={option} />
+      <Option
+        info={{ name: name, address: account }}
+        option={option}
+        func={getBalance}
+      />
     </div>
   );
 }

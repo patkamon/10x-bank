@@ -6,7 +6,7 @@ import { useState, useContext } from "react";
 import { toast } from "react-hot-toast";
 import { Context } from "../lib/context";
 
-export default function Option({ info, option }) {
+export default function Option({ info, option, func }) {
   const { bankAddress, fau } = useContext(Context);
 
   async function requestAccount() {
@@ -38,6 +38,10 @@ export default function Option({ info, option }) {
         const transaction = await contract.deposit(info.name, fau, amount);
         const wait = transaction.wait();
         toast.success("Deposit successfully");
+        setTimeout(() => {
+          func(info.address);
+          e.target[0].value = "";
+        }, 10000);
       }
     }
 
@@ -90,7 +94,6 @@ export default function Option({ info, option }) {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
         let check = new ethers.Contract(info.address, Account.abi, signer);
-
         let amount = ethers.utils.parseUnits(e.target[0].value, 18);
         check = await check.getTokenAmount(fau);
         if (check >= amount) {
@@ -98,6 +101,10 @@ export default function Option({ info, option }) {
           const transaction = await contract.withdraw(info.name, fau, amount);
           const wait = transaction.wait();
           toast.success("Withdraw successfully");
+          setTimeout(() => {
+            func(info.address);
+            e.target[0].value = "";
+          }, 10000);
         } else {
           toast.error("Exceed your balance!");
         }
@@ -186,14 +193,24 @@ export default function Option({ info, option }) {
 
         let amount = ethers.utils.parseUnits(e.target[1].value, 18);
         const contract = new ethers.Contract(bankAddress, Bank.abi, signer);
-        const transaction = await contract.transfer(
-          info.name,
-          fau,
-          e.target[0].value,
-          amount
-        );
-        const wait = await transaction.wait();
-        toast.success("Transfer successfully");
+        const check = await contract.getAccounts(e.target[0].value);
+        if (check != "0x0000000000000000000000000000000000000000") {
+          const transaction = await contract.transfer(
+            info.name,
+            fau,
+            e.target[0].value,
+            amount
+          );
+          const wait = await transaction.wait();
+          toast.success("Transfer successfully");
+          setTimeout(() => {
+            func(info.address);
+            e.target[0].value = "";
+            e.target[1].value = "";
+          }, 10000);
+        } else {
+          toast.error(`Not Found Account`);
+        }
       }
     }
 
