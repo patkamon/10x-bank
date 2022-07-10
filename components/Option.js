@@ -219,7 +219,18 @@ export default function Option({ info, option, func }) {
         {option === "transfer" ? (
           !isMulti ? (
             <div className="mx-1 sm:mx-10 my-5">
-              <h2 className="font-semibold text-lg text-scb2">Transfer</h2>
+              <h2 className="font-semibold text-lg text-scb2">
+                Transfer{" "}
+                <button
+                  onClick={() =>
+                    toast(
+                      "🔴 1% fee, If you transfer to other account\n🟢 No fee, If you transfer to your account"
+                    )
+                  }
+                >
+                  ℹ️
+                </button>
+              </h2>
               <div className="my-2">
                 <label
                   htmlFor="yellow-toggle"
@@ -287,7 +298,18 @@ export default function Option({ info, option, func }) {
             </div>
           ) : (
             <div className="mx-10 my-5">
-              <h2 className="font-semibold text-lg text-scb2">Transfer</h2>
+              <h2 className="font-semibold text-lg text-scb2">
+                Transfer{" "}
+                <button
+                  onClick={() =>
+                    toast(
+                      "🔴 1% fee, If you transfer to other account\n🟢 No fee, If you transfer to your account"
+                    )
+                  }
+                >
+                  ℹ️
+                </button>
+              </h2>
               <div className="my-2">
                 <label
                   htmlFor="yellow-toggle"
