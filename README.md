@@ -1,15 +1,30 @@
-# Basic Sample Hardhat Project
+# 10XBank
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+# Test
 
-Try running some of the following tasks:
+`npx hardhat test`
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
+# Getting Started
+
+in hardhat.config.js add your prefer network
+don't forget add Alchemy link to your prefer network and your private key in `.env` file
+
 ```
+networks: {
+    hardhat: {
+      chainId: 1337
+    },
+    prefernetwork: {
+            url: `${ALCHEMY}`,
+            accounts: [`0x${WALLET_PRIVATE_KEY}`]
+          }
+  }
+```
+
+next run
+
+`npx hardhat run scripts/deploy.js --network prefernetwork`
+
+to deploy bank contract don't forget to save contract address
+
+then go to pages/\_app.js change `fau` value to your prefer erc20 token address and `bankAddress` to new contract address
